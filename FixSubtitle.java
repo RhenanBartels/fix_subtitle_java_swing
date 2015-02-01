@@ -19,16 +19,6 @@ public class FixSubtitle extends JFrame {
 	public static void main(String[] args){
 		gui = new JFrame();
 		
-		//Fix button.
-		fix = new JButton("Fix");
-		fix.setLayout(null);		
-		fix.setSize(60, 20);
-		fix.setLocation(135, 90);
-		//fix.setEnabled(false);
-        fix.addActionListener(new FixButtonEvent());
-		
-		gui.add(fix);
-		
 		//Load button.
 		load = new JButton();
 		//Get icon image path
@@ -39,10 +29,8 @@ public class FixSubtitle extends JFrame {
 		load.setMargin(new Insets(0, 0, 0, 0));
 		load.setBorder(null);		
 		load.setSize(20, 20);
-		load.setLocation(295, 12);
-			
+		load.setLocation(295, 12);		
 		gui.add(load);
-		
 		
 		//File Name JLabel.
 		nameLabel = new JLabel("File Name:");
@@ -69,6 +57,7 @@ public class FixSubtitle extends JFrame {
 		load.addActionListener(evt);
 		//File Content: Byte[]
 		
+
 		
 		//File Name JTextField.
 		offset = new JTextField();
@@ -76,6 +65,16 @@ public class FixSubtitle extends JFrame {
 		offset.setSize(50, 20);
 		offset.setLocation(90, 50);
 		gui.add(offset);
+		
+		
+		//Fix button.
+		fix = new JButton("Fix");
+		fix.setLayout(null);		
+		fix.setSize(60, 20);
+		fix.setLocation(135, 90);
+		//fix.setEnabled(false);
+        fix.addActionListener(new FixButtonEvent(evt, offset));
+        gui.add(fix);
 		
 		gui.setLayout(null);
 		gui.setSize(350, 135);

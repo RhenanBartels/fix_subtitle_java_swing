@@ -3,23 +3,26 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.*;
 
 
 public class LoadButtonEvent implements ActionListener {
 	private static JTextField fileName;
 	private static JFrame frame;
-	private static String subtitlePath;
+	private static ArrayList<String> fileContent;
 
 	public LoadButtonEvent(){
-		
+		this.fileContent = new ArrayList<String>();
 	}
+	
 	public LoadButtonEvent(JTextField fileName, JFrame frame){
 		this.fileName = fileName;
 		this.frame = frame;
+		this.fileContent = new ArrayList<String>();
 		
 
 	}
@@ -41,39 +44,40 @@ public class LoadButtonEvent implements ActionListener {
 			this.fileName.setText("Requiem.srt");
 			if (selectedFile.canRead() && selectedFile.exists()) {
 				String fileChoosedName = selectedFile.getName();
-				this.subtitlePath = selectedFile.getAbsolutePath();
+				try {
+					this.fileContent = readSubtitleFile(selectedFile.getAbsolutePath());		           
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				this.fileName.setText(fileChoosedName);
 
 			}
 		}
 	}
 	
-public byte[] getByteArrayFromFile() {
-		String filePath = this.subtitlePath;
-		byte[] result = null;
-		FileInputStream fileInStr = null;
-		try {
-			File imgFile = new File(filePath);
-			fileInStr = new FileInputStream(imgFile);
-			long imageSize = imgFile.length();
-
-			if (imageSize > Integer.MAX_VALUE) {
-				return null;    //image is too large
-			}
-
-			if (imageSize > 0) {
-				result = new byte[(int) imageSize];
-				fileInStr.read(result);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				fileInStr.close();
-			} catch (Exception e) {
-			}
-		}
-		return result;
+	public ArrayList<String> getFileContent(){
+		return this.fileContent;		
 	}
+
+   private ArrayList<String> readSubtitleFile(String filePath) throws IOException{
+	   BufferedReader subtitleFile = new BufferedReader(new FileReader(filePath));
+	   ArrayList<String> fileContent = new ArrayList<String>(); 
+	   String line = subtitleFile.readLine();
+	   try {		   
+		   while(line != null){			   
+			   fileContent.add(line);
+			   line = subtitleFile.readLine();
+		   }
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}finally{
+		subtitleFile.close();
+	}
+	  
+       return fileContent;
+	   
+   }
 
 }
