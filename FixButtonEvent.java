@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,31 +78,11 @@ public class FixButtonEvent implements ActionListener {
 	}
 	
 	public void writeFixSubtitleFile(ArrayList<String> finalSubtitle) throws IOException{
-		File file = new File("/home/Desktop/fixed.srt");
-		file.createNewFile();
-		BufferedWriter writer = null;
-		try {
-			writer = new BufferedWriter( new FileWriter(file));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        PrintWriter writer = new PrintWriter("/home/rhenan/Desktop/requiem.srt");
 		for (String finaLine:finalSubtitle ){
-			try {
-				writer.write(finaLine + "\\r\\n");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-			
+			writer.println(finaLine); 			
 		}		
-		try {
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		writer.close();	
 	}
 
 }
