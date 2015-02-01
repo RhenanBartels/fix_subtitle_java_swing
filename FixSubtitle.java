@@ -80,6 +80,7 @@ public class FixSubtitle extends JFrame {
 		gui.setSize(350, 135);
 		gui.setTitle("Fix Subtitle");
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gui.setLocationRelativeTo(null);
 		gui.setVisible(true);
 		
 		

@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.*;
+
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 
@@ -78,11 +80,12 @@ public class FixButtonEvent implements ActionListener {
 	}
 	
 	public void writeFixSubtitleFile(ArrayList<String> finalSubtitle) throws IOException{
-        PrintWriter writer = new PrintWriter("/home/rhenan/Desktop/requiem.srt");
+        PrintWriter writer = new PrintWriter(this.loadEvt.getFileName().split(".srt")[0] + "_fixed.srt");
 		for (String finaLine:finalSubtitle ){
 			writer.println(finaLine); 			
 		}		
 		writer.close();	
+		JOptionPane.showMessageDialog(null, "File Fixed!");
 	}
 
 }

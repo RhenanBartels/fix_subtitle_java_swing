@@ -14,6 +14,7 @@ public class LoadButtonEvent implements ActionListener {
 	private static JTextField fileName;
 	private static JFrame frame;
 	private static ArrayList<String> fileContent;
+	private static String filePath;
 
 	public LoadButtonEvent(){
 		this.fileContent = new ArrayList<String>();
@@ -45,7 +46,8 @@ public class LoadButtonEvent implements ActionListener {
 			if (selectedFile.canRead() && selectedFile.exists()) {
 				String fileChoosedName = selectedFile.getName();
 				try {
-					this.fileContent = readSubtitleFile(selectedFile.getAbsolutePath());		           
+					this.fileContent = readSubtitleFile(selectedFile.getAbsolutePath());	
+					this.filePath = selectedFile.getAbsolutePath();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -58,6 +60,9 @@ public class LoadButtonEvent implements ActionListener {
 	
 	public ArrayList<String> getFileContent(){
 		return this.fileContent;		
+	}
+	public String getFileName(){
+		return this.filePath;
 	}
 
    private ArrayList<String> readSubtitleFile(String filePath) throws IOException{
