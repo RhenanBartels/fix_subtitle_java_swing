@@ -13,7 +13,7 @@ public class FixSubtitle extends JFrame {
 	private static JButton fix;
 	private static JTextField fileName;
 	private static JTextField offset;
-	private static JLabel nameLabel;
+	public  static JLabel nameLabel;
 	private static JLabel offsetLabel;
 	
 	public static void main(String[] args){
@@ -24,10 +24,12 @@ public class FixSubtitle extends JFrame {
 		fix.setLayout(null);		
 		fix.setSize(60, 20);
 		fix.setLocation(135, 90);
-		fix.setEnabled(false);
+		//fix.setEnabled(false);
+        fix.addActionListener(new FixButtonEvent());
+		
 		gui.add(fix);
 		
-		//Fix button.
+		//Load button.
 		load = new JButton();
 		//Get icon image path
 		String absolutePath = new File("src").getAbsolutePath();
@@ -38,7 +40,9 @@ public class FixSubtitle extends JFrame {
 		load.setBorder(null);		
 		load.setSize(20, 20);
 		load.setLocation(295, 12);
+			
 		gui.add(load);
+		
 		
 		//File Name JLabel.
 		nameLabel = new JLabel("File Name:");
@@ -60,6 +64,11 @@ public class FixSubtitle extends JFrame {
 		fileName.setSize(200, 20);
 		fileName.setLocation(90, 12);
 		gui.add(fileName);
+		//Add EventListener	to Load Button.
+		LoadButtonEvent evt = new LoadButtonEvent(fileName, gui);
+		load.addActionListener(evt);
+		//File Content: Byte[]
+		
 		
 		//File Name JTextField.
 		offset = new JTextField();
@@ -69,10 +78,11 @@ public class FixSubtitle extends JFrame {
 		gui.add(offset);
 		
 		gui.setLayout(null);
-		gui.setSize(350, 125);
+		gui.setSize(350, 135);
 		gui.setTitle("Fix Subtitle");
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gui.setVisible(true);
+		
 		
 	}
 
