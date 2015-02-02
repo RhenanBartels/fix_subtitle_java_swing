@@ -1,3 +1,6 @@
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -16,6 +19,7 @@ import java.util.regex.*;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 
 public class FixButtonEvent implements ActionListener {
@@ -24,11 +28,13 @@ public class FixButtonEvent implements ActionListener {
 	private String patternTime = "\\d{2}:\\d{2}:\\d{2},\\d{3}";
 	private LoadButtonEvent loadEvt;
 	private JTextField offsetField;
+	private JTextArea textArea;
 	
-	public FixButtonEvent(LoadButtonEvent loadEvt, JTextField offsetField){
+	public FixButtonEvent(LoadButtonEvent loadEvt, JTextField offsetField, JTextArea textArea){
 		this.fileContent = new ArrayList<String>();
 		this.loadEvt = loadEvt;
 		this.offsetField = offsetField;
+		this.textArea = textArea;
 	}
 	
 	@Override
@@ -80,10 +86,16 @@ public class FixButtonEvent implements ActionListener {
 	}
 	
 	public void writeFixSubtitleFile(ArrayList<String> finalSubtitle) throws IOException{
-        PrintWriter writer = new PrintWriter(this.loadEvt.getFileName().split(".srt")[0] + "_fixed.srt");
-		for (String finaLine:finalSubtitle ){
-			writer.println(finaLine); 			
+        PrintWriter writer = new PrintWriter(this.loadEvt.getFileName().
+        		split(".srt")[0] + "_fixed.srt");
+        this.textArea.setText("");
+        for (String finalLine:finalSubtitle ){        	
+        	byte ptext[] = finalLine.getBytes(ISO_8859_1); 
+        	String value = new String(ptext, UTF_8); 
+        	this.textArea.append(value + "\n");
+			writer.println(finalLine); 			
 		}		
+        this.textArea.setCaretPosition(0);
 		writer.close();	
 		JOptionPane.showMessageDialog(null, "File Fixed!");
 	}
