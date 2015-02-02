@@ -1,30 +1,42 @@
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import static java.nio.charset.StandardCharsets.*;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.*;
+import javax.swing.text.BadLocationException;
 
 
 public class LoadButtonEvent implements ActionListener {
 	private static JTextField fileName;
 	private static JFrame frame;
-	private static ArrayList<String> fileContent;
+	private ArrayList<String> fileContent;
 	private static String filePath;
+	private static JScrollPane scrollPane;
+	private static JTextArea textArea;
 
 	public LoadButtonEvent(){
 		this.fileContent = new ArrayList<String>();
 	}
 	
-	public LoadButtonEvent(JTextField fileName, JFrame frame){
+	public LoadButtonEvent(JTextField fileName, JFrame frame,
+			JScrollPane scrollPane, JTextArea textArea){
 		this.fileName = fileName;
 		this.frame = frame;
 		this.fileContent = new ArrayList<String>();
-		
+		this.scrollPane = scrollPane;
+		this.textArea = textArea;
+
 
 	}
 	@Override
@@ -44,6 +56,7 @@ public class LoadButtonEvent implements ActionListener {
 			//makes sure files can be processed before proceeding
 			this.fileName.setText("Requiem.srt");
 			if (selectedFile.canRead() && selectedFile.exists()) {
+				this.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				String fileChoosedName = selectedFile.getName();
 				try {
 					this.fileContent = readSubtitleFile(selectedFile.getAbsolutePath());	
@@ -53,11 +66,15 @@ public class LoadButtonEvent implements ActionListener {
 					e1.printStackTrace();
 				}
 				this.fileName.setText(fileChoosedName);
-
+				this.frame.setSize(350, 335);  
 			}
+			this.frame.setCursor(Cursor.getDefaultCursor());
+			this.scrollPane.setVisible(true);
+			this.textArea.setVisible(true);
+			this.textArea.setCaretPosition(0);
 		}
 	}
-	
+
 	public ArrayList<String> getFileContent(){
 		return this.fileContent;		
 	}
@@ -65,15 +82,19 @@ public class LoadButtonEvent implements ActionListener {
 		return this.filePath;
 	}
 
-   private ArrayList<String> readSubtitleFile(String filePath) throws IOException{
+   private ArrayList<String> readSubtitleFile(String filePath) throws IOException{	 
 	   BufferedReader subtitleFile = new BufferedReader(new FileReader(filePath));
 	   ArrayList<String> fileContent = new ArrayList<String>(); 
 	   String line = subtitleFile.readLine();
-	   try {		   
-		   while(line != null){			   
+	   try {		   		   
+		   while(line != null){		
+			   byte ptext[] = line.getBytes(ISO_8859_1); 
+			   String value = new String(ptext, UTF_8); 
+			   this.textArea.append(value + "\n");
 			   fileContent.add(line);
-			   line = subtitleFile.readLine();
+			   line = subtitleFile.readLine();			   
 		   }
+		  
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

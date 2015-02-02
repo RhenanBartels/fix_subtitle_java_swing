@@ -2,7 +2,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import java.awt.Insets;
 import java.io.File;
@@ -15,6 +18,8 @@ public class FixSubtitle extends JFrame {
 	private static JTextField offset;
 	public  static JLabel nameLabel;
 	private static JLabel offsetLabel;
+	private static JScrollPane scrollPane;
+	private static JTextArea textArea;
 	
 	public static void main(String[] args){
 		gui = new JFrame();
@@ -52,30 +57,46 @@ public class FixSubtitle extends JFrame {
 		fileName.setSize(200, 20);
 		fileName.setLocation(90, 12);
 		gui.add(fileName);
-		//Add EventListener	to Load Button.
-		LoadButtonEvent evt = new LoadButtonEvent(fileName, gui);
-		load.addActionListener(evt);
-		//File Content: Byte[]
-		
-
-		
+	
 		//File Name JTextField.
 		offset = new JTextField();
 		offset.setLayout(null);
 		offset.setSize(50, 20);
 		offset.setLocation(90, 50);
-		gui.add(offset);
+		gui.add(offset);	
 		
+		//Create JTextArea.
+		textArea = new JTextArea();
+		textArea.setVisible(false);
+		//textArea.setLayout(null);
+		//textArea.setSize(290, 208);
+		//textArea.setLocation(30, 115);		
+	    //gui.add(textArea);
+		
+        //Subtitle JScrollPane.
+        scrollPane = new JScrollPane(textArea);
+        scrollPane.setBounds(30, 115, 290, 200);
+        //scrollPane.setLayout(null);
+        //scrollPane.setSize(290, 208);
+        //scrollPane.setLocation(30, 115);
+        scrollPane.setVisible(false);      
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        
+        gui.add(scrollPane);
+		//Add EventListener	to Load Button.
+		LoadButtonEvent evt = new LoadButtonEvent(fileName, gui, scrollPane, textArea);
+		load.addActionListener(evt);        
 		
 		//Fix button.
 		fix = new JButton("Fix");
 		fix.setLayout(null);		
 		fix.setSize(60, 20);
-		fix.setLocation(135, 90);
+		fix.setLocation(135, 85);
 		//fix.setEnabled(false);
         fix.addActionListener(new FixButtonEvent(evt, offset));
         gui.add(fix);
-		
+        
 		gui.setLayout(null);
 		gui.setSize(350, 135);
 		gui.setTitle("Fix Subtitle");

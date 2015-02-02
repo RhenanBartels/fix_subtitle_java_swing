@@ -60,7 +60,7 @@ public class FixButtonEvent implements ActionListener {
 		}		
 	}	
 	
-	public String addOffset(String time){
+	public String addOffset(String time){		
 		String lineWithOffset = null;
 		Date subtitleTime = null;
 		Date milisecondsDate = null;
