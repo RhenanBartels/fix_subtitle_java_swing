@@ -20,7 +20,7 @@ import java.util.regex.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-
+import java.util.Arrays;
 
 public class FixButtonEvent implements ActionListener {
 	private ArrayList<String> fileContent;
@@ -42,7 +42,8 @@ public class FixButtonEvent implements ActionListener {
 		//Regexp pattern.
 		//Pattern regexp = Pattern.compile(pattern);
 		//Matcher m;          
-        this.fileContent = this.loadEvt.getFileContent();    
+        //this.fileContent = this.loadEvt.getFileContent();    
+		this.fileContent = new ArrayList<String>(Arrays.asList(this.textArea.getText().split("\n")));
         ArrayList<String> finalFileContent = new ArrayList<String>();
         String finalSubtitle;
         String subtitleTime1;
@@ -84,20 +85,23 @@ public class FixButtonEvent implements ActionListener {
 		}
 		return lineWithOffset;
 	}
-	
-	public void writeFixSubtitleFile(ArrayList<String> finalSubtitle) throws IOException{
-        PrintWriter writer = new PrintWriter(this.loadEvt.getFileName().
-        		split(".srt")[0] + "_fixed.srt");
-        this.textArea.setText("");
-        for (String finalLine:finalSubtitle ){        	
+
+	public void writeFixSubtitleFile(ArrayList<String> finalSubtitle)
+			throws IOException {
+		// PrintWriter writer = new PrintWriter(this.loadEvt.getFileName().
+		// split(".srt")[0] + "_fixed.srt");
+		int caretPosition = this.textArea.getCaretPosition();
+		this.textArea.setText("");
+
+		for (String finalLine : finalSubtitle ){        	
         	byte ptext[] = finalLine.getBytes(ISO_8859_1); 
         	String value = new String(ptext, UTF_8); 
         	this.textArea.append(value + "\n");
-			writer.println(finalLine); 			
-		}		
-        this.textArea.setCaretPosition(0);
-		writer.close();	
-		JOptionPane.showMessageDialog(null, "File Fixed!");
+			//writer.println(finalLine); 			
+		}       
+        this.textArea.setCaretPosition(caretPosition);
+		//writer.close();	
+		//JOptionPane.showMessageDialog(null, "File Fixed!");
 	}
 
 }

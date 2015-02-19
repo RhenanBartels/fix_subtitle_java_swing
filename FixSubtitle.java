@@ -28,17 +28,17 @@ public class FixSubtitle extends JFrame {
 		//Load button.
 		load = new JButton();
 		//Get icon image path
-		String absolutePath = new File("src").getAbsolutePath();
-		System.out.println(absolutePath + File.separator + "text70.png");
-		load.setIcon(new ImageIcon(absolutePath + File.separator + "text70.png"));
+		String absolutePath = new File("").getAbsolutePath();		
+		load.setIcon(new ImageIcon(absolutePath + File.separator + "src" + File.separator + "text70.png"));
+		System.out.println(absolutePath + "text70.png");
 		load.setLayout(null);
-		load.setMargin(new Insets(0, 0, 0, 0));
-		load.setBorder(null);		
+		//load.setMargin(new Insets(0, 0, 0, 0));
+		//load.setBorder(null);		
 		load.setSize(14, 18);
 		load.setLocation(295, 13);	
 		load.setOpaque(false);
 		//load.setContentAreaFilled(false);
-		load.setBorderPainted(false);
+		//load.setBorderPainted(false);
 		gui.add(load);
 		
 		//File Name JLabel.
@@ -71,9 +71,8 @@ public class FixSubtitle extends JFrame {
 		//textArea.setLayout(null);
 		//textArea.setSize(290, 208);
 		//textArea.setLocation(30, 115);		
-	    //gui.add(textArea);
-		TextAreaMouseEvent mouseEvt = new TextAreaMouseEvent(textArea);
-		textArea.addMouseListener(mouseEvt);
+	    //gui.add(textArea);		
+		
 		
         //Subtitle JScrollPane.
         scrollPane = new JScrollPane(textArea);
@@ -98,7 +97,7 @@ public class FixSubtitle extends JFrame {
 		fix.setEnabled(false);  		
         gui.add(fix);
         
-		//File Name JTextField.
+		//Offset JTextField.
 		offset = new JTextField();
 		offset.setLayout(null);
 		offset.setSize(50, 20);
@@ -107,7 +106,10 @@ public class FixSubtitle extends JFrame {
 		offset.addKeyListener(keyEvt);
 		gui.add(offset);	
 		
-		fix.addActionListener(new FixButtonEvent(evt, offset, textArea));
+		FixButtonEvent buttonEvent = new FixButtonEvent(evt, offset, textArea);
+		fix.addActionListener(buttonEvent);
+		TextAreaMouseEvent mouseEvt = new TextAreaMouseEvent(textArea, offset, buttonEvent);
+		textArea.addMouseListener(mouseEvt);
 		
 		gui.setLayout(null);
 		gui.setSize(350, 135);

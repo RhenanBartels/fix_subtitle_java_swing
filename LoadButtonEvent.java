@@ -55,6 +55,7 @@ public class LoadButtonEvent implements ActionListener {
 			selectedFile = chooser.getSelectedFile();
 			//makes sure files can be processed before proceeding
 			this.fileName.setText("Requiem.srt");
+			this.textArea.setText("");
 			if (selectedFile.canRead() && selectedFile.exists()) {
 				this.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				String fileChoosedName = selectedFile.getName();
@@ -72,6 +73,7 @@ public class LoadButtonEvent implements ActionListener {
 			this.scrollPane.setVisible(true);
 			this.textArea.setVisible(true);
 			this.textArea.setCaretPosition(0);
+			
 		}
 	}
 
